@@ -1,6 +1,7 @@
 #!/data/data/com.termux/files/usr/bin/bash
 clear
 url=$1
+url=`echo url | sed 's/ *$//g'` #trim whitespace
 echo "All-in-one Download Script for Termux (Fork)"
 echo "----------Last updated Jun 25 2020----------"
 echo "--------------------------------------------"
