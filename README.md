@@ -7,7 +7,7 @@ This script requires **ffmpeg, youtube-dl, python, wget, spotdl, gallery-dl** to
 Launch the "share" option and select Termux.
 
 # Installing the script
-Launch Termux and run the follwing commands:
+Firstly, clone this repo into Termux, then cd into the folder and then the following commands:
 ```
 #Clean Install
 rm -f "$HOME/bin/termux-url-opener"
@@ -21,10 +21,7 @@ cp termux-url-opener "$HOME"/bin/
 chmod +x "$HOME/bin/termux-url-opener"
 termux-setup-storage
 ```
-Or simply run this
-```
-wget --no-check-certificate "https://raw.githubusercontent.com/M3GABOY/Termux_url_opener_all_in_one_downloader/master/install.sh" && chmod +x install.sh && bash install.sh
-```
+
 # Adding cookies file for youtube-dl
 Just put your cookies file at the home directory of Termux.
 
