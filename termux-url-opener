@@ -1,40 +1,48 @@
-#!/bin/bash
+#!/data/data/com.termux/files/usr/bin/bash
 clear
 url=$1
-echo "All-in-one Download Script for Termux"
-echo "----------Last updated Jun 18 2020----------"
+echo "All-in-one Download Script for Termux (Fork)"
+echo "----------Last updated Jun 25 2020----------"
 echo "--------------------------------------------"
 echo "1: Download with youtube-dl"
 echo "2: Download with ffmpeg(m3u8/m3u)"
 echo "3: Download with wget (Recursive)"
 echo "4: Download with spotdl (Spotify All-in-one)"
 echo "5: Download with youtube-dl and extract audio"
+echo "6: Download with gallery-dl (instagram)"
 echo "Default: Download with youtube-dl"
 read n
 if [ "$n" == '2' ]; then
-echo "Output Filename:"
-read name
-ffmpeg -i "$url" -c copy -bsf:a aac_adtstoasc ./storage/downloads/"$name"
+  echo "Output Filename:"
+  read name
+  ffmpeg -i "$url" -c copy -bsf:a aac_adtstoasc $HOME/storage/downloads/"$name"
 else
-if [ "$n" == '3' ]; then
-wget -P "./storage/downloads/" -c --mirror  --recursive --no-clobber  --page-requisites --html-extension --convert-links -e robots=off --restrict-file-names=windows --no-parent "$url"
-else
-if [ "$n" == '4' ]; then 
-[ ! -d "./storage/downloads/spotdl" ] && mkdir "./storage/downloads/spotdl"
-test -f  "./.spotdl_playlist"  && rm "./.spotdl_playlist.txt"
-test -f  "./.spotdl_album"  && rm "./.spotdl_album.txt"
-[[ $url == *"track"* ]] && spotdl --output-file "./storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --song "$url" -q best --output-ext mp3
-[[ $url == *"playlist"* ]] && spotdl --playlist "$url" --write-to  "./.spotdl_playlist.txt"  && spotdl --output-file "./storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --list "./.spotdl_playlist.txt" -q best --output-ext mp3 && rm -f "./.spotdl_playlist.txt"
-[[ $url == *"album"* ]] && spotdl --album "$url" --write-to  "./.spotdl_album.txt" && spotdl --output-file "./storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --list "./.spotdl_album.txt" -q best --output-ext mp3 && rm -f "./.spotdl_album.txt"
-else
-if [ "$n" == '5' ]; then
-[ ! -d "./storage/downloads/youtube-dl" ] && mkdir "./storage/downloads/youtube-dl"
-youtube-dl -x --audio-format mp3 -f bestaudio --audio-quality 0 -c -i "$url" --cookies  ~/cookies -o "./storage/downloads/youtube-dl/%(title)s.%(ext)s"
-else
-[ ! -d "./storage/downloads/youtube-dl" ] && mkdir "./storage/downloads/youtube-dl"
-youtube-dl -c -i "$url" --cookies  ~/cookies -o "./storage/downloads/youtube-dl/%(title)s.%(ext)s"
+  if [ "$n" == '3' ]; then
+    wget -P "$HOME/storage/downloads/" -c --mirror --recursive --no-clobber --page-requisites --html-extension --convert-links -e robots=off --restrict-file-names=windows --no-parent "$url"
+  else
+    if [ "$n" == '4' ]; then
+      [ ! -d "$HOME/storage/downloads/spotdl" ] && mkdir "$HOME/storage/downloads/spotdl"
+      test -f "$HOME/.spotdl_playlist" && rm "./.spotdl_playlist.txt"
+      test -f "$HOME/.spotdl_album" && rm "$HOME/.spotdl_album.txt"
+      [[ $url == *"track"* ]] && spotdl --output-file "$HOME/storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --song "$url" -q best --output-ext mp3
+      [[ $url == *"playlist"* ]] && spotdl --playlist "$url" --write-to "$HOME/.spotdl_playlist.txt" && spotdl --output-file "$HOME/storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --list "$HOME/.spotdl_playlist.txt" -q best --output-ext mp3 && rm -f "$HOME/.spotdl_playlist.txt"
+      [[ $url == *"album"* ]] && spotdl --album "$url" --write-to "$HOME/.spotdl_album.txt" && spotdl --output-file "$HOME/storage/downloads/spotdl/{artist} - {track-name}.{output-ext}" --list "$HOME/.spotdl_album.txt" -q best --output-ext mp3 && rm -f "$HOME/.spotdl_album.txt"
+    else
+      if [ "$n" == '5' ]; then
+        [ ! -d "$HOME/storage/downloads/youtube-dl" ] && mkdir "$HOME/storage/downloads/youtube-dl"
+        youtube-dl -x --audio-format mp3 -f bestaudio --audio-quality 0 -c -i "$url" --cookies ~/cookies -o "$HOME/storage/downloads/youtube-dl/%(title)s.%(ext)s"
+      else
+        [ ! -d "$HOME/storage/downloads/youtube-dl" ] && mkdir "$HOME/storage/downloads/youtube-dl"
+        #        youtube-dl -c -i "$url" --cookies ~/cookies -o "$HOME/storage/downloads/youtube-dl/%(title)s.%(ext)s"
+        if [ "$n" == '6' ]; then
+          [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
+          gallery-dl --cookies "$HOME/bin/instagram_cookies.txt" "$url" #assign your instagram cookie dir here using the instructions from gallery-dl github
+          mv "$HOME"/gallery-dl "$HOME/storage/downloads/"
+          termux-media-scan -r "$HOME/storage/downloads/gallery-dl"
+        else
+          [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
+        fi
+      fi
+    fi
+  fi
 fi
-fi
-fi
-fi
-
