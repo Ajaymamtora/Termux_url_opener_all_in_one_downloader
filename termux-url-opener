@@ -39,7 +39,7 @@ else
         if [ "$n" == '6' ]; then
           [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
           gallery-dl --cookies "$HOME/bin/instagram_cookies.txt" "$url" #assign your instagram cookie dir here using the instructions from gallery-dl github
-          rsync -a $HOME/gallery-dl/ $HOME/storage/downloads/
+          rsync -a $HOME/gallery-dl/ $HOME/storage/downloads/gallery-dl
           termux-media-scan -r "$HOME/storage/downloads/gallery-dl"
         else
           [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
