@@ -1,7 +1,6 @@
 #!/data/data/com.termux/files/usr/bin/bash
 clear
 url=$1
-url=`echo url | sed 's/ *$//g'` #trim whitespace
 echo "All-in-one Download Script for Termux (Fork)"
 echo "----------Last updated Jun 25 2020----------"
 echo "--------------------------------------------"
@@ -13,6 +12,8 @@ echo "5: Download with youtube-dl and extract audio"
 echo "6: Download with gallery-dl (instagram)"
 echo "Default: Download with youtube-dl"
 read n
+n=`echo $n | sed 's/ *$//g'` #trim whitespace
+echo "You chose option $n"
 if [ "$n" == '2' ]; then
   echo "Output Filename:"
   read name
@@ -38,7 +39,7 @@ else
         if [ "$n" == '6' ]; then
           [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
           gallery-dl --cookies "$HOME/bin/instagram_cookies.txt" "$url" #assign your instagram cookie dir here using the instructions from gallery-dl github
-          mv "$HOME"/gallery-dl "$HOME/storage/downloads/"
+          rsync -a $HOME/gallery-dl/ $HOME/storage/downloads/
           termux-media-scan -r "$HOME/storage/downloads/gallery-dl"
         else
           [ ! -d "$HOME/storage/downloads/gallery-dl" ] && mkdir "$HOME/storage/downloads/gallery-dl"
