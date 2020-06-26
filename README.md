@@ -27,6 +27,7 @@ Just put your cookies file at the home directory of Termux.
 
 # FAQ
 If you want to use the gallery-dl option, get your cookie using a PC using the guide on their github
+
 # Changelog
 ```
 Updated on Jun 25 2020: Added gallery-dl, input script no longer sensitive to blanks.
